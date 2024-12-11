@@ -77,7 +77,7 @@ jobs:
       
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build && ls ~/
+          cd ~/ uv build && ls ~/gnmi-build
 
       - name: Collect all builds
         run: |
