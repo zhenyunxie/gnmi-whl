@@ -77,7 +77,7 @@ jobs:
       
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
+          cd ~/ uv build && echo "wheel=$(ls ~/dist/*.whl)" >> $GITHUB_ENV
 
       - name: Collect all builds
         run: |
