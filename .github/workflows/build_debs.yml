@@ -77,11 +77,11 @@ jobs:
       
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build
+          cd ~/ uv init && uv build
       
       - name: show where the dist
         run: |
-          echo find /home -name "dist"
+          find /home -name "dist"
 
       - name: Collect all builds
         run: |
