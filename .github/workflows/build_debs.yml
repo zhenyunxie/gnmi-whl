@@ -2,7 +2,7 @@ name: build_debs
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - "*"
 
