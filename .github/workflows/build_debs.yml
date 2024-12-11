@@ -57,15 +57,19 @@ jobs:
           git clone --depth=1 https://github.com/CESNET/libyang  
           git clone --depth=1 https://github.com/CESNET/libnetconf2.git  
           git clone --depth=1 https://github.com/sysrepo/sysrepo.git  
-          git clone --depth=1 https://github.com/CESNET/Netopeer2.git 
+          git clone --depth=1 https://github.com/CESNET/Netopeer2.git
+          git clone  https://github.com/openconfig/gnmi.git
           sed -i 's/-DCMAKE_BUILD_TYPE/-DENABLE_TLS=ON -DENABLE_SSH=ON -DCMAKE_BUILD_TYPE/g' \
              ~/libnetconf2/distro/pkg/deb/rules
 
       - name: download gnmi_pb2.py & gnmi_pb2_grpc.py
         run: |
-          mkdir -p ~/gnmi && cd ~/gnmi && wget https://github.com/openconfig/gnmi/blob/master/proto/gnmi/gnmi_pb2_grpc.py
-          wget https://github.com/openconfig/gnmi/blob/master/proto/gnmi/gnmi_pb2.py
+          mkdir -p ~/gnmi
       
+      - name: copy gnmi_pb2 to gnmi
+        run: |
+          cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi
+
       - name: build gnmi wheels
         run: |
           uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
