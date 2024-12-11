@@ -1,0 +1,6 @@
+[project]
+name = "gnmi"
+version = "v0.11.0"
+
+[tool.setuptools.packages.find]
+where = ["gnmi"]
