@@ -78,14 +78,10 @@ jobs:
 
           [tool.setuptools.packages.find]
           where = [\"gnmi-build\"]" > ~/pyproject.toml
-      
-      # - name: move project.toml to ~/
-      #     run: |
-      #       cp pyproject.toml ~/
 
       - name: build gnmi wheels
         run: |
-          uv build
+          cd ~/ uv build
 
       - name: Collect all builds
         run: |
