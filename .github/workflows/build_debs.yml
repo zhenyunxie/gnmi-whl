@@ -61,10 +61,6 @@ jobs:
           sed -i 's/-DCMAKE_BUILD_TYPE/-DENABLE_TLS=ON -DENABLE_SSH=ON -DCMAKE_BUILD_TYPE/g' \
              ~/libnetconf2/distro/pkg/deb/rules
 
-      - name: build libyang and sysrepo wheels
-        run: |
-          mkdir -p ~/wheels && cd ~/wheels && uvx -p 3.11 pip wheel sysrepo
-
       - name: download gnmi_pb2.py & gnmi_pb2_grpc.py
         run: |
           mkdir -p ~/gnmi && cd ~/gnmi && wget https://github.com/openconfig/gnmi/blob/master/proto/gnmi/gnmi_pb2_grpc.py
