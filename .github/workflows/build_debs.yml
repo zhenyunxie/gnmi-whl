@@ -81,7 +81,7 @@ jobs:
       
       - name: show where the dist
         run: |
-          find /home -name "dist"
+          echo find /home -name "dist"
 
       - name: Collect all builds
         run: |
