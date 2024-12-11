@@ -64,11 +64,11 @@ jobs:
 
       - name: download gnmi_pb2.py & gnmi_pb2_grpc.py
         run: |
-          mkdir -p ~/gnmi
+          mkdir -p ~/gnmi-build
       
       - name: copy gnmi_pb2 to gnmi
         run: |
-          cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi
+          cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi-build
 
       - name: create a project.toml to build gnmi
         run: |
@@ -77,7 +77,7 @@ jobs:
           version = \"v0.11.0\"
 
           [tool.setuptools.packages.find]
-          where = [\"gnmi\"]" > ~/pyproject.toml
+          where = [\"gnmi-build\"]" > pyproject.toml
 
       - name: build gnmi wheels
         run: |
