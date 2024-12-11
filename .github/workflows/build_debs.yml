@@ -72,7 +72,12 @@ jobs:
 
       - name: create a project.toml to build gnmi
         run: |
-          echo "[project] name = \"gnmi\" version = \"v0.11.0\" [tool.setuptools.packages.find] where = [\"gnmi\"]" > pyproject.toml
+          echo "[project]
+          name = \"gnmi\"
+          version = \"v0.11.0\"
+
+          [tool.setuptools.packages.find]
+          where = [\"gnmi\"]" > pyproject.toml
 
       - name: build gnmi wheels
         run: |
