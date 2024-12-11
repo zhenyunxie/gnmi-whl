@@ -77,7 +77,11 @@ jobs:
       
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build && sudo find / -type d -name "gnmi-v0.11.0-py3-none-any.whl"
+          cd ~/ uv build && ls /tmp
+      
+      - name: ls /home
+        run: |
+          ls /home
 
       - name: Collect all builds
         run: |
