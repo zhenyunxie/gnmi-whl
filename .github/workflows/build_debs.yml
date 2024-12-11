@@ -62,13 +62,9 @@ jobs:
           sed -i 's/-DCMAKE_BUILD_TYPE/-DENABLE_TLS=ON -DENABLE_SSH=ON -DCMAKE_BUILD_TYPE/g' \
              ~/libnetconf2/distro/pkg/deb/rules
 
-      - name: create gnmi build folder
+      - name: copy gnmi_pb2 and gnmi_pb2_grpc.py to gnmi build folder
         run: |
-          mkdir -p ~/gnmi-build
-      
-      - name: copy gnmi_pb2 to gnmi
-        run: |
-          cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi-build
+          mkdir -p ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi-build
 
       - name: create a project.toml to build gnmi
         run: |
@@ -78,14 +74,14 @@ jobs:
 
           [tool.setuptools.packages.find]
           where = [\"gnmi-build\"]" > ~/pyproject.toml
-
+      
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build
+          cd ~/ uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
 
       - name: Collect all builds
         run: |
-          mkdir -p ~/builds && cp ~/*/pkg/pkgs/debian-12/*/* ~/wheels/*.whl ~/builds/
+          mkdir -p ~/builds
           cp ~/dist/*.whl ~/builds/
           # also include a tgz with everything
           cd ~ && tar -cvzf ~/builds.tgz builds/ && mv ~/builds.tgz ~/builds/
