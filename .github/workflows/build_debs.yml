@@ -70,6 +70,10 @@ jobs:
         run: |
           cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi
 
+      - name: create a project.toml to build gnmi
+        run: |
+          echo "[project] name = \"gnmi\" version = \"v0.11.0\" [tool.setuptools.packages.find] where = [\"gnmi\"]" > pyproject.toml
+
       - name: build gnmi wheels
         run: |
           uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
