@@ -47,8 +47,6 @@ jobs:
             libsystemd-dev \
             systemd \
             graphviz \
-            grpcio \
-            grpcio-tools \
             clang # for sysrepo
 
       - name: download sources
@@ -75,12 +73,17 @@ jobs:
 
           requires-python = ">=3.11"
 
+          dependencies = [
+            "grpcio-tools>=1.68.1",
+            "grpcio>=1.68.1",
+          ]
+
           [tool.setuptools.packages.find]
           where = [\"gnmi-build\"]" > ~/pyproject.toml
       
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
-          mkdir -p ~/gnmi-builds &&
+          mkdir -p ~/gnmi-builds && uv sync &&
           uv run python -m grpc_tools.protoc --prot_path=./proto/ --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds ./proto/gnmi.proto
       
       - name: show current files
