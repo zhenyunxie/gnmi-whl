@@ -67,16 +67,16 @@ jobs:
 
       - name: create a project.toml to build gnmi
         run: |
-          cd ~/ && uv init && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
+          cd ~ && uv init && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
       
       - name: show current files
         run: |
-          cd ~/ && cat pyproject.toml && ls && uv pip list
+          cd ~ && cat pyproject.toml && ls && uv pip list
       
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
-          mkdir -p ~/gnmi-builds && ls ~/proto
-          cd ~/ && uv run python -m grpc_tools.protoc --proto_path=. --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds gnmi.proto
+          mkdir -p ~/gnmi-builds && cd ~
+          uv run python -m grpc_tools.protoc --proto_path=. --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds gnmi.proto
       
       - name: show current files
         run: |
