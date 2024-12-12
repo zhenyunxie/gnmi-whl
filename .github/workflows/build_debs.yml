@@ -63,7 +63,7 @@ jobs:
 
       - name: copy gnmi.proto
         run: |
-          mkdir -p ~/proto cp ~/gnmi/proto/gnmi/gnmi.proto ~/proto && cp ~/gnmi/proto/gnmi_ext/gnmi_ext.proto ~/proto
+          mkdir -p ~/proto && cp ~/gnmi/proto/gnmi/gnmi.proto ~/proto && cp ~/gnmi/proto/gnmi_ext/gnmi_ext.proto ~/proto
 
       - name: create a project.toml to build gnmi
         run: |
