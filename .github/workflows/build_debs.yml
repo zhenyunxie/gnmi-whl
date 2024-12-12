@@ -67,17 +67,7 @@ jobs:
 
       - name: create a project.toml to build gnmi
         run: |
-          echo"
-          [project]
-          name = \"gnmi\"
-          version = \"v0.11.0\"
-          requires-python = \">=3.11\"
-          dependencies = [
-            \"grpcio-tools>=1.68.1\",
-            \"grpcio>=1.68.1\",
-          ]
-          [tool.setuptools.packages.find]
-          where = [\"gnmi-build\"]" > ~/pyproject.toml
+          uv init gnmi && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
       
       - name: show current files
         run: |
@@ -85,7 +75,7 @@ jobs:
       
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
-          mkdir -p ~/gnmi-builds && cd ~/ uv sync &&
+          mkdir -p ~/gnmi-builds && 
           uv run python -m grpc_tools.protoc --prot_path=./proto/ --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds ./proto/gnmi.proto
       
       - name: show current files
@@ -94,7 +84,7 @@ jobs:
 
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
+          cd ~/ uv build ~/gnmi-builds && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
 
       - name: Collect all builds
         run: |
