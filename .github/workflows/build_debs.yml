@@ -67,7 +67,8 @@ jobs:
 
       - name: create a project.toml to build gnmi
         run: |
-          echo"[project]
+          echo"
+          [project]
           name = \"gnmi\"
           version = \"v0.11.0\"
           requires-python = \">=3.11\"
