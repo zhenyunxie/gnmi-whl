@@ -61,30 +61,22 @@ jobs:
           sed -i 's/-DCMAKE_BUILD_TYPE/-DENABLE_TLS=ON -DENABLE_SSH=ON -DCMAKE_BUILD_TYPE/g' \
              ~/libnetconf2/distro/pkg/deb/rules
 
-      - name: copy gnmi.proto
+      - name: copy gnmi_pb2 and gnmi_pb2_grpc.py to gnmi build folder
         run: |
-          mkdir -p ~/proto && cp ~/gnmi/proto/gnmi/gnmi.proto ~/proto && cp ~/gnmi/proto/gnmi_ext/gnmi_ext.proto ~/proto
+          mkdir -p ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi-build
 
       - name: create a project.toml to build gnmi
         run: |
-          cd ~ && uv init && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
-      
-      - name: show current files
-        run: |
-          cd ~ && cat pyproject.toml && ls && uv pip list
-      
-      - name: Compile the gnmi proto to python file into gnmi build folder
-        run: |
-          mkdir -p ~/gnmi-builds && cd ~
-          uv run --directory .venv python -m grpc_tools.protoc --proto_path=/github/home/proto/ --python_out=/github/home//gnmi-builds/ --pyi_out=/github/home/gnmi-builds/ --grpc_python_out=/github/home/gnmi-builds /github/home/proto/gnmi.proto
-      
-      - name: show current files
-        run: |
-          cd ~/ && ls
+          echo "[project]
+          name = \"gnmi\"
+          version = \"v0.11.0\"
 
+          [tool.setuptools.packages.find]
+          where = [\"gnmi-build\"]" > ~/pyproject.toml
+      
       - name: build gnmi wheels
         run: |
-          cd ~/ uv build ~/gnmi-builds && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
+          cd ~ uv venv && uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
 
       - name: Collect all builds
         run: |
