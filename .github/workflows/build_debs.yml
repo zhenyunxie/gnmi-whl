@@ -83,11 +83,11 @@ jobs:
       
       - name: show current files
         run: |
-          cd ~/ && ls
+          cd ~/ && cat pyproject.toml && ls
       
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
-          mkdir -p ~/gnmi-builds && uv sync &&
+          mkdir -p ~/gnmi-builds && cd ~/ uv sync &&
           uv run python -m grpc_tools.protoc --prot_path=./proto/ --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds ./proto/gnmi.proto
       
       - name: show current files
