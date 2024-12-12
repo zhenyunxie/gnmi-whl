@@ -67,7 +67,7 @@ jobs:
 
       - name: create a project.toml to build gnmi
         run: |
-          cd ~ && uv venv && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
+          cd ~ && uv init && uv add "grpcio-tools>=1.68.1" "grpcio>=1.68.1" && uv sync
       
       - name: show current files
         run: |
