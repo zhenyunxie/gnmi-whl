@@ -81,6 +81,10 @@ jobs:
           [tool.setuptools.packages.find]
           where = [\"gnmi-build\"]" > ~/pyproject.toml
       
+      - name: show current files
+        run: |
+          cd ~/ && ls
+      
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
           mkdir -p ~/gnmi-builds && uv sync &&
