@@ -63,7 +63,7 @@ jobs:
 
       - name: copy gnmi.proto
         run: |
-          mkdir -p ~/proto && cp ~/gnmi/proto/gnmi/gnmi.proto ~/proto && cp ~/gnmi/proto/gnmi_ext/gnmi_ext.proto ~/proto
+          cp ~/gnmi/proto/gnmi/gnmi.proto ~/ && cp ~/gnmi/proto/gnmi_ext/gnmi_ext.proto ~/
 
       - name: create a project.toml to build gnmi
         run: |
@@ -76,7 +76,7 @@ jobs:
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
           mkdir -p ~/gnmi-builds && ls ~/proto
-          cd ~/ && uv run python -m grpc_tools.protoc --proto_path=~/proto/ --python_out=~/gnmi-builds/ --pyi_out=~/gnmi-builds/ --grpc_python_out=~/gnmi-builds ~/proto/gnmi.proto
+          cd ~/ && uv run python -m grpc_tools.protoc --proto_path=. --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds gnmi.proto
       
       - name: show current files
         run: |
