@@ -76,7 +76,7 @@ jobs:
       - name: Compile the gnmi proto to python file into gnmi build folder
         run: |
           mkdir -p ~/gnmi-builds && cd ~
-          uv run --directory .venv python -m grpc_tools.protoc --proto_path=./proto/ --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds ./proto/gnmi.proto
+          uv run --directory .venv python -m grpc_tools.protoc --proto_path=/proto/ --python_out=/gnmi-builds/ --pyi_out=/gnmi-builds/ --grpc_python_out=/gnmi-builds /proto/gnmi.proto
       
       - name: show current files
         run: |
