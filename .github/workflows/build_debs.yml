@@ -47,7 +47,8 @@ jobs:
             libsystemd-dev \
             systemd \
             graphviz \
-            wget \
+            grpcio \
+            grpcio-tools \
             clang # for sysrepo
 
       - name: download sources
@@ -62,9 +63,9 @@ jobs:
           sed -i 's/-DCMAKE_BUILD_TYPE/-DENABLE_TLS=ON -DENABLE_SSH=ON -DCMAKE_BUILD_TYPE/g' \
              ~/libnetconf2/distro/pkg/deb/rules
 
-      - name: copy gnmi_pb2 and gnmi_pb2_grpc.py to gnmi build folder
+      - name: copy gnmi.proto
         run: |
-          mkdir -p ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2.py ~/gnmi-build && cp ~/gnmi/proto/gnmi/gnmi_pb2_grpc.py ~/gnmi-build
+          mkdir -p ~/proto && cp ~/gnmi/proto/gnmi/gnmi.proto ~/proto && cp ~/gnmi/proto/gnmi/gnmi_ext.proto ~/proto
 
       - name: create a project.toml to build gnmi
         run: |
@@ -72,12 +73,23 @@ jobs:
           name = \"gnmi\"
           version = \"v0.11.0\"
 
+          requires-python = ">=3.11"
+
           [tool.setuptools.packages.find]
           where = [\"gnmi-build\"]" > ~/pyproject.toml
       
+      - name: Compile the gnmi proto to python file into gnmi build folder
+        run: |
+          mkdir -p ~/gnmi-builds &&
+          uv run python -m grpc_tools.protoc --prot_path=./proto/ --python_out=./gnmi-builds/ --pyi_out=./gnmi-builds/ --grpc_python_out=./gnmi-builds ./proto/gnmi.proto
+      
+      - name: show current files
+        run: |
+          cd ~/ && ls
+
       - name: build gnmi wheels
         run: |
-          cd ~/ uv init && uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
+          cd ~/ uv build && echo "wheel=$(ls dist/*.whl)" >> $GITHUB_ENV
 
       - name: Collect all builds
         run: |
